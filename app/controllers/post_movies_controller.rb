@@ -7,16 +7,20 @@ class PostMoviesController < ApplicationController
   def create
     @post_movie = PostMovie.new(post_movie_params)
     @post_movie.user_id = current_user.id
-    @post_movie.save
-    redirect_to post_movies_path
+    if @post_movie.save
+      redirect_to post_movies_path
+    else
+      render :new
+    end
   end
 
   def index
-    @post_movies = PostMovie.all
+    @post_movies = PostMovie.page(params[:page])
   end
 
   def show
     @post_movie = PostMovie.find(params[:id])
+    @movie_comment = MovieComment.new
   end
 
   def destroy

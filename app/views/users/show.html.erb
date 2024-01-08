@@ -8,14 +8,4 @@
 </div>
 
 <!--ユーザーの投稿一覧-->
-<% @post_movies.each do |post_movie| %>
-<div>
-  <%= link_to post_movie_path(post_movie.id) do %>
-    <%= image_tag post_movie.get_image %>
-  <% end %>
-  <p>投稿ユーザー画像:<%= image_tag post_movie.user.get_profile_image(100,100) %></p>
-  <p>映画タイトル：<%= post_movie.movie_name %></p>
-  <p>感想：<%= post_movie.caption %></p>
-  <p>ユーザーネーム：<%= post_movie.user.name %></p>
-</div>
-<% end %>
+<%= render 'post_movies/index', post_movies: @post_movies %>

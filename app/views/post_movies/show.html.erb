@@ -8,4 +8,38 @@
   <% if @post_movie.user == current_user %>
     <%= link_to "削除", post_movie_path(@post_movie), method: :delete %>
   <% end %>
+  <!--いいね機能についての記述-->
+  <% if @post_movie.favorited_by?(current_user) %>
+    <p>
+      <%= link_to post_movie_favorite_path(@post_movie), method: :delete do %>
+        ♥<%= @post_movie.favorites.count %> いいね
+      <% end %>
+    </p>
+    <% else %>
+    <p>
+      <%= link_to post_movie_favorite_path(@post_movie), method: :post do %>
+        ♡<%= @post_movie.favorites.count %> いいね
+      <% end %>
+    </p>
+  <% end %>
+</div>
+
+<!--コメントについての記述-->
+<div>
+  <p>コメント件数:<% @post_movie.movie_comments.count %></p>
+  <% @post_movie.movie_comments.each do |movie_comment| %>
+    <p><%= image_tag movie_comment.user.get_profile_image(100,100) %></p>
+    <%= movie_comment.user.name %>
+    <%= movie_comment.created_at.strftime('%Y/%m/%d') %> <%= movie_comment.comment %>
+    <% if movie_comment.user == current_user%>
+      <%= link_to "削除", post_movie_movie_comment_path(movie_comment.post_movie, movie_comment), method: :delete %>
+    <% end %>
+  <% end %>
+</div>
+<!--コメント投稿フォーム-->
+<div>
+  <%= form_with model: [@post_movie, @movie_comment] do |f| %>
+    <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
+    <%= f.submit "送信する" %>
+  <% end %>
 </div>

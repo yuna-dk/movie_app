@@ -1,4 +1,15 @@
 <h1>映画投稿フォーム</h1>
+
+<!--バリデーションによるエラーメッセージの記述-->
+<% if @post_movie.errors.any? %>
+  <%= @post_movie.errors.count %>件のエラーが発生しました
+  <ul>
+    <% @post_movie.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
 <%= form_with model: @post_movie do |f| %>
   <h4>画像</h4>
   <%= f.file_field :image, accept: "image/*" %>
