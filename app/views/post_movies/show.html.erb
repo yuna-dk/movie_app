@@ -1,0 +1,11 @@
+<div>
+  <%= image_tag @post_movie.get_image %>
+  <p>映画タイトル：<%= @post_movie.movie_name %></p>
+  <p>感想：<%= @post_movie.caption %></p>
+  <p>投稿ユーザー画像：<%= image_tag @post_movie.user.get_profile_image(100,100) %></p>
+  <p>ユーザーネーム：<%= @post_movie.user.name %></p>
+  <p>投稿日：<%= @post_movie.created_at.strftime('%Y/%m/%d') %></p>
+  <% if @post_movie.user == current_user %>
+    <%= link_to "削除", post_movie_path(@post_movie), method: :delete %>
+  <% end %>
+</div>
