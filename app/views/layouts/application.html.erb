@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>MovieApp</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <script src="https://kit.fontawesome.com/5190e400d3.js" crossorigin="anonymous"></script>
@@ -10,27 +10,48 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <header>
-    <% if user_signed_in? %>
-      <li>
-        <%= link_to '映画投稿フォーム', new_post_movie_path %>
-      </li>
-      <li>
-        <%= link_to 'マイページ', user_path(current_user.id) %>
-      </li>
-      <li>
-        <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-      </li>
-    <% else %>
-      <li>
-        <%= link_to "新規登録", new_user_registration_path %>
-      </li>
-      <li>
-        <%= link_to "ログイン", new_user_session_path %>
-      </li>
-    <% end %>
+  <body class="d-flex flex-column vh-100">
+    <header class "shadow-sm">
+      <nav class="navbar navbar-expand-sm navbar-dark bg-danger">
+        <div class="container">
+          <a class="navbar-brand" href="/">
+            <span>Movies</span>
+          </a>
+
+
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <%= link_to '映画投稿フォーム', new_post_movie_path, class: 'nav-link text-dark' %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'マイページ', user_path(current_user.id), class: 'nav-link text-dark' %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-dark' %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to "新規登録", new_user_registration_path, class: 'nav-link text-dark' %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "ログイン", new_user_session_path, class: 'nav-link text-dark' %>
+              </li>
+            <% end %>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </header>
+    <main class="mb-auto">
     <%= yield %>
+    </main>
+
+    <footer class="bg-danger text-dark pt-2 pb-3">
+      <p class="text-center d-flex align-items-center justify-content-center">©MOVIE／あなたに良い出会いがありますように</p>
+      <p class="bg-dark text-white d-flex align-items-center justify-content-center"><a>Privacy Policy / プライバシーポリシー</a></p>
+    </footer>
+
   </body>
 </html>
