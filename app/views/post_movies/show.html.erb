@@ -7,49 +7,56 @@
         <div class="col-2">
           <%= image_tag @post_movie.user.get_profile_image(100,100), class: "mt-3 rounded-circle"; %>
         </div>
-        <div class="col-10">
+        <div class="col-9">
           <p class="card-title">
             <strong><i class="fa-sharp fa-solid fa-clapperboard-play"></i><span> <%= @post_movie.movie_name %></span></strong>
           </p>
           <p class="card-text"><i class="fa-light fa-popcorn"></i> <%= @post_movie.caption %></p>
+
+          <!--いいね機能についての記述-->
+          <% if @post_movie.favorited_by?(current_user) %>
+            <spanp>
+              <%= link_to post_movie_favorite_path(@post_movie), method: :delete do %>
+                ♥<%= @post_movie.favorites.count %> いいね
+              <% end %>
+            </spanp>
+            <% else %>
+            <spanp>
+              <%= link_to post_movie_favorite_path(@post_movie), method: :post do %>
+                ♡<%= @post_movie.favorites.count %> いいね
+              <% end %>
+            </spanp>
+          <% end %>
+          <spanp> | コメント件数:<%= @post_movie.movie_comments.count %></spanp><br>
+
           <span><i class="fas fa-user"></i> <%= @post_movie.user.name %> | </span>
-          <spanp>投稿日：<%= @post_movie.created_at.strftime('%Y/%m/%d') %></spanp>
+          <spanp>投稿日：<%= @post_movie.created_at.strftime('%Y/%m/%d') %>
+            <% if @post_movie.user == current_user %>
+              <%= link_to "投稿を削除する", post_movie_path(@post_movie), method: :delete, class: "btn btn-outline-danger" %>
+            <% end %>
+          </spanp>
         </div>
       </div>
     </div>
 
 
-    <% if @post_movie.user == current_user %>
-      <%= link_to "削除", post_movie_path(@post_movie), method: :delete %>
-    <% end %>
-    <!--いいね機能についての記述-->
-    <% if @post_movie.favorited_by?(current_user) %>
-      <p>
-        <%= link_to post_movie_favorite_path(@post_movie), method: :delete do %>
-          ♥<%= @post_movie.favorites.count %> いいね
-        <% end %>
-      </p>
-      <% else %>
-      <p>
-        <%= link_to post_movie_favorite_path(@post_movie), method: :post do %>
-          ♡<%= @post_movie.favorites.count %> いいね
-        <% end %>
-      </p>
-    <% end %>
-
-
   <!--コメントについての記述-->
-  <div>
-    <p>コメント件数:<% @post_movie.movie_comments.count %></p>
+  <table class="table table-hover">
     <% @post_movie.movie_comments.each do |movie_comment| %>
-      <p><%= image_tag movie_comment.user.get_profile_image(100,100) %></p>
-      <%= movie_comment.user.name %>
-      <%= movie_comment.created_at.strftime('%Y/%m/%d') %> <%= movie_comment.comment %>
-      <% if movie_comment.user == current_user%>
-        <%= link_to "削除", post_movie_movie_comment_path(movie_comment.post_movie, movie_comment), method: :delete %>
-      <% end %>
-     <% end %>
-  </div>
+    <tbody>
+      <tr>
+        <td>
+          <%= movie_comment.user.name %>
+          <%= movie_comment.created_at.strftime('%Y/%m/%d') %> <%= movie_comment.comment %>
+          <% if movie_comment.user == current_user%>
+            <%= link_to "削除", post_movie_movie_comment_path(movie_comment.post_movie, movie_comment), method: :delete %>
+          <% end %>
+        </td>
+      </tr>
+    </tbody>
+    <% end %>
+  </table>
+
   <!--コメント投稿フォーム-->
   <div>
     <%= form_with model: [@post_movie, @movie_comment] do |f| %>
