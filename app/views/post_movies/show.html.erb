@@ -14,19 +14,10 @@
           <p class="card-text"><i class="fa-light fa-popcorn"></i> <%= @post_movie.caption %></p>
 
           <!--いいね機能についての記述-->
-          <% if @post_movie.favorited_by?(current_user) %>
-            <spanp>
-              <%= link_to post_movie_favorite_path(@post_movie), method: :delete do %>
-                ♥<%= @post_movie.favorites.count %> いいね
-              <% end %>
-            </spanp>
-            <% else %>
-            <spanp>
-              <%= link_to post_movie_favorite_path(@post_movie), method: :post do %>
-                ♡<%= @post_movie.favorites.count %> いいね
-              <% end %>
-            </spanp>
-          <% end %>
+          <span id="favorite_btn_<%= @post_movie.id %>">
+            <%= render "favorites/btn", post_movie: @post_movie %>
+          </span>
+
           <spanp> | コメント件数:<%= @post_movie.movie_comments.count %></spanp><br>
 
           <span><i class="fas fa-user"></i> <%= @post_movie.user.name %> | </span>

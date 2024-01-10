@@ -1,0 +1,14 @@
+<!--いいね機能についての記述-->
+<% if post_movie.favorited_by?(current_user) %>
+  <spanp>
+    <%= link_to post_movie_favorite_path(post_movie), method: :delete, remote: true do %>
+      ♥<%= post_movie.favorites.count %> いいね
+    <% end %>
+  </spanp>
+  <% else %>
+  <spanp>
+    <%= link_to post_movie_favorite_path(post_movie), method: :post, remote: true do %>
+      ♡<%= post_movie.favorites.count %> いいね
+    <% end %>
+  </spanp>
+<% end %>
