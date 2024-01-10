@@ -32,25 +32,13 @@
 
 
   <!--コメントについての記述-->
-  <table class="table table-hover">
-    <% @post_movie.movie_comments.each do |movie_comment| %>
-    <tbody>
-      <tr>
-        <td>
-          <%= movie_comment.user.name %>
-          <%= movie_comment.created_at.strftime('%Y/%m/%d') %> <%= movie_comment.comment %>
-          <% if movie_comment.user == current_user%>
-            <%= link_to "削除", post_movie_movie_comment_path(movie_comment.post_movie, movie_comment), method: :delete %>
-          <% end %>
-        </td>
-      </tr>
-    </tbody>
-    <% end %>
-  </table>
+  <div id="movie_comments">
+    <%= render "movie_comments/show", { post_movie: @post_movie , movie_comment: @movie_comment } %>
+  </div>
 
   <!--コメント投稿フォーム-->
   <div>
-    <%= form_with model: [@post_movie, @movie_comment] do |f| %>
+    <%= form_with model: [@post_movie, @movie_comment], local: false do |f| %>
       <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
       <%= f.submit "送信する" %>
     <% end %>

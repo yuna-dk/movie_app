@@ -1,0 +1,16 @@
+<!--コメントについての記述-->
+  <table class="table table-hover">
+    <% post_movie.movie_comments.each do |movie_comment| %>
+    <tbody>
+      <tr>
+        <td>
+          <%= movie_comment.user.name %>
+          <%= movie_comment.created_at.strftime('%Y/%m/%d') %> <%= movie_comment.comment %>
+          <% if movie_comment.user == current_user%>
+            <%= link_to "削除", post_movie_movie_comment_path(movie_comment.post_movie, movie_comment), method: :delete, class: "text-danger", remote:true, data: {"turbolinks" => false} %>
+          <% end %>
+        </td>
+      </tr>
+    </tbody>
+    <% end %>
+  </table>
